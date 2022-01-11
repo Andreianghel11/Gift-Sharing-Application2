@@ -1,5 +1,7 @@
 package database;
 
+import childrensortstrategy.SortStrategy;
+import childrensortstrategy.SortStrategyFactory;
 import common.Constants;
 import fileinputoutput.Input;
 
@@ -67,11 +69,15 @@ public final class Database {
     /**
      * Operations that must be implemented every year.
      */
-    public void implementAnnualOperations() {
+    public void implementAnnualOperations(String strategy) {
         removeYoungAdults();
         calculateChildScores();
         calculateBudget();
+        //de facut o sortare ca.. strategie
+        SortStrategy sortStrategy = SortStrategyFactory.createSortStrategy(strategy);
+        sortStrategy.sort(childList);
         distributeGifts();
+
         sortChildren();
     }
 
@@ -190,7 +196,7 @@ public final class Database {
         updateChildren(annualChange.getChildrenUpdates());
         santaBudget = annualChange.getNewSantaBudget();
 
-        implementAnnualOperations();
+        implementAnnualOperations(annualChange.getStrategy());
     }
 
     /**

@@ -184,6 +184,7 @@ public final class Child {
                 if (preference.equals(gift.getCategory()) && gift.getQuantity() > 0) {
                     giftsReceived.add(gift);
                     gift.setQuantity(gift.getQuantity() - 1);
+                    return;
                 }
             }
         }
