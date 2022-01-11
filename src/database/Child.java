@@ -181,9 +181,11 @@ public final class Child {
         if (elfType.equals("yellow") && giftsReceived.isEmpty()) {
             String preference = giftPreferences.get(0);
             for (Gift gift : giftList) {
-                if (preference.equals(gift.getCategory()) && gift.getQuantity() > 0) {
-                    giftsReceived.add(gift);
-                    gift.setQuantity(gift.getQuantity() - 1);
+                if (preference.equals(gift.getCategory())) {
+                    if (gift.getQuantity() > 0) {
+                        giftsReceived.add(gift);
+                        gift.setQuantity(gift.getQuantity() - 1);
+                    }
                     return;
                 }
             }

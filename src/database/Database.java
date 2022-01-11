@@ -1,7 +1,8 @@
 package database;
 
-import childrensortstrategy.SortStrategy;
-import childrensortstrategy.SortStrategyFactory;
+import childrensortcommand.SortCommand;
+import childrensortcommand.SortCommandEditor;
+import childrensortcommand.SortStrategyFactory;
 import common.Constants;
 import fileinputoutput.Input;
 
@@ -74,8 +75,10 @@ public final class Database {
         calculateChildScores();
         calculateBudget();
         //de facut o sortare ca.. strategie
-        SortStrategy sortStrategy = SortStrategyFactory.createSortStrategy(strategy);
-        sortStrategy.sort(childList);
+        SortCommandEditor sortCommandEditor = new SortCommandEditor();
+        SortCommand sortCommand = SortStrategyFactory.createSortStrategy(strategy, childList);
+        sortCommandEditor.edit(sortCommand);
+
         distributeGifts();
 
         sortChildren();

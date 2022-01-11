@@ -1,4 +1,4 @@
-package childrensortstrategy;
+package childrensortcommand;
 
 import database.Child;
 import database.City;
@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class SortNiceScoreCity implements SortStrategy{
+public class SortNiceScoreCity implements SortCommand {
+    private List<Child> childList;
+
+    public SortNiceScoreCity(List<Child> childList) {
+        this.childList = childList;
+    }
+
     @Override
-    public void sort(List<Child> childList) {
+    public void execute() {
         List<City> cityList = new ArrayList<>();
         for (Child child : childList) {
             if (!Utils.cityListHasCity(cityList, child.getCity())) {
@@ -23,7 +29,6 @@ public class SortNiceScoreCity implements SortStrategy{
             }
         }
 
-        //??????????????????//
         cityList.sort(Comparator.comparing(City::getName));
         cityList.sort(Comparator.comparingDouble(City::calculateNiceScoreCity).reversed());
 
