@@ -1,2 +1,16 @@
 Starting audit...
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\AnnualChange.java:65:29: Parameter strategy should be final. [FinalParameters]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:4:8: Unused import - enums.ElvesType. [UnusedImports]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:151:28: Parameter elfType should be final. [FinalParameters]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:165:55: '100' is a magic number. [MagicNumber]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:172:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:174:67: '30' is a magic number. [MagicNumber]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:174:72: '100' is a magic number. [MagicNumber]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:176:67: '30' is a magic number. [MagicNumber]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:176:72: '100' is a magic number. [MagicNumber]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:180:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Child.java:180:30: Parameter giftList should be final. [FinalParameters]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\ChildUpdate.java:55:28: Parameter elfType should be final. [FinalParameters]
+[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect2\proiect2\.\src\database\Gift.java:51:29: Parameter quantity should be final. [FinalParameters]
 Audit done.
+Checkstyle ends with 13 errors.

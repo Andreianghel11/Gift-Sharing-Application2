@@ -14,11 +14,14 @@ public final class ChildUpdate {
 
     private List<String> giftsPreferences;
 
+    private String elfType;
+
     public ChildUpdate(final int id, final double niceScore,
-                       final ArrayList<String> giftsPreferences) {
+                       final ArrayList<String> giftsPreferences, final String elfType) {
         this.id = id;
         this.niceScore = niceScore;
         this.giftsPreferences = giftsPreferences;
+        this.elfType = elfType;
     }
 
     public int getId() {
@@ -43,5 +46,13 @@ public final class ChildUpdate {
 
     public void setGiftsPreferences(final List<String> giftsPreferences) {
         this.giftsPreferences = giftsPreferences;
+    }
+
+    public String getElfType() {
+        return elfType;
+    }
+
+    public void setElfType(String elfType) {
+        this.elfType = elfType;
     }
 }

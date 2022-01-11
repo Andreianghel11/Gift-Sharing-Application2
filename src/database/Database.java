@@ -111,8 +111,9 @@ public final class Database {
      */
     public void calculateBudget() {
         double budgetUnit = santaBudget / calculateAverageNiceScoreSum();
-        for (Child c : childList) {
-            c.setBudgetAllocated(c.getNiceScore() * budgetUnit);
+        for (Child child : childList) {
+            child.setBudgetAllocated(child.getNiceScore() * budgetUnit);
+            child.applyBudgetElf();
         }
     }
 
@@ -138,7 +139,7 @@ public final class Database {
     public int findGiftByPreference(final String preference) {
         int position = 0;
         for (Gift gift : giftList) {
-            if (preference.equals(gift.getCategory())) {
+            if (preference.equals(gift.getCategory()) && gift.getQuantity() > 0) {
                 return position;
             }
             position++;
@@ -169,9 +170,11 @@ public final class Database {
                     if (remainingBudget - gift.getPrice() >= 0) {
                         remainingBudget -= gift.getPrice();
                         child.getGiftsReceived().add(gift);
+                        gift.setQuantity(gift.getQuantity() - 1);
                     }
                 }
             }
+            child.applyGiftElf(giftList);
         }
     }
 
@@ -275,6 +278,7 @@ public final class Database {
                         child.getGiftPreferences().add(0, preference);
                     }
                 }
+                child.setElfType(childUpdate.getElfType());
             }
         }
     }

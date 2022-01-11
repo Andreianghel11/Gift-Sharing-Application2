@@ -100,6 +100,9 @@ public final class InputLoader {
                         annualChange.setChildrenUpdates(childrenUpdates);
                     }
 
+                    annualChange.setStrategy(((JSONObject) jsonIterator)
+                            .get(Constants.STRATEGY).toString());
+
                     changes.add(annualChange);
                 }
             }
@@ -124,7 +127,9 @@ public final class InputLoader {
                     ((JSONObject) jsonIterator).get(Constants.CITY).toString(),
                     ((Long) ((JSONObject) jsonIterator).get(Constants.NICE_SCORE)).intValue(),
                     UtilsInputOutput.convertJSONArray((JSONArray) ((JSONObject) jsonIterator)
-                            .get(Constants.GIFTS_PREFERENCES))
+                            .get(Constants.GIFTS_PREFERENCES)),
+                    ((Long) ((JSONObject) jsonIterator).get(Constants.NICE_SCORE_BONUS)).intValue(),
+                    ((JSONObject) jsonIterator).get(Constants.ELF).toString()
             ));
         }
     }
@@ -137,7 +142,8 @@ public final class InputLoader {
             giftList.add(new Gift(
                     ((JSONObject) jsonIterator).get(Constants.PRODUCT_NAME).toString(),
                     ((Long) ((JSONObject) jsonIterator).get(Constants.PRICE)).intValue(),
-                    ((JSONObject) jsonIterator).get(Constants.CATEGORY).toString()
+                    ((JSONObject) jsonIterator).get(Constants.CATEGORY).toString(),
+                    ((Long) ((JSONObject) jsonIterator).get(Constants.QUANTITY)).intValue()
             ));
         }
     }
@@ -147,12 +153,13 @@ public final class InputLoader {
      * case that the new nice score is not null.
      */
     private void addChildUpdateValidScore(final List<ChildUpdate> childrenUpdates,
-                                          final JSONObject secondJsonIterator) {
+                                          final JSONObject jsonIterator) {
         childrenUpdates.add(new ChildUpdate(
-                ((Long) secondJsonIterator.get(Constants.ID)).intValue(),
-                ((Long) secondJsonIterator.get(Constants.NICE_SCORE)).intValue(),
-                UtilsInputOutput.convertJSONArray((JSONArray) secondJsonIterator
-                        .get(Constants.GIFTS_PREFERENCES))
+                ((Long) jsonIterator.get(Constants.ID)).intValue(),
+                ((Long) jsonIterator.get(Constants.NICE_SCORE)).intValue(),
+                UtilsInputOutput.convertJSONArray((JSONArray) jsonIterator
+                        .get(Constants.GIFTS_PREFERENCES)),
+                ((JSONObject) jsonIterator).get(Constants.ELF).toString()
         ));
     }
 
@@ -161,13 +168,14 @@ public final class InputLoader {
      * case that the new nice score is null.
      */
     private void addChildUpdateNullScore(final List<ChildUpdate> childrenUpdates,
-                                         final JSONObject secondJsonIterator) {
+                                         final JSONObject jsonIterator) {
         childrenUpdates.add(new ChildUpdate(
-                ((Long) secondJsonIterator.get(Constants.ID))
+                ((Long) jsonIterator.get(Constants.ID))
                         .intValue(),
                 -1,
-                UtilsInputOutput.convertJSONArray((JSONArray) secondJsonIterator
-                        .get(Constants.GIFTS_PREFERENCES))
+                UtilsInputOutput.convertJSONArray((JSONArray) jsonIterator
+                        .get(Constants.GIFTS_PREFERENCES)),
+                ((JSONObject) jsonIterator).get(Constants.ELF).toString()
         ));
     }
 }
