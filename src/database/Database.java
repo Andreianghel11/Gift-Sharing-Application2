@@ -1,7 +1,7 @@
 package database;
 
 import childrensortcommand.SortCommand;
-import childrensortcommand.SortCommandEditor;
+import childrensortcommand.SortCommandInvoker;
 import childrensortcommand.SortStrategyFactory;
 import common.Constants;
 import fileinputoutput.Input;
@@ -69,19 +69,26 @@ public final class Database {
 
     /**
      * Operations that must be implemented every year.
+     * Receives the year's strategy as a parameter.
      */
-    public void implementAnnualOperations(String strategy) {
+    public void implementAnnualOperations(final String strategy) {
         removeYoungAdults();
         calculateChildScores();
         calculateBudget();
-        //de facut o sortare ca.. strategie
-        SortCommandEditor sortCommandEditor = new SortCommandEditor();
+
+        /*
+          Sort the children list based on the
+          year's strategy using a SortCommandInvoker
+          object that calls SortCommand objects.
+         */
+        SortCommandInvoker sortCommandInvoker = new SortCommandInvoker();
         SortCommand sortCommand = SortStrategyFactory.createSortStrategy(strategy, childList);
-        sortCommandEditor.edit(sortCommand);
+        sortCommandInvoker.sort(sortCommand);
 
         distributeGifts();
 
-        sortChildren();
+        sortCommand = SortStrategyFactory.createSortStrategy("id", childList);
+        sortCommandInvoker.sort(sortCommand);
     }
 
     /**
@@ -131,13 +138,6 @@ public final class Database {
      */
     public void sortGifts() {
         giftList.sort(Comparator.comparingDouble(Gift::getPrice));
-    }
-
-    /**
-     * Method to sort the children list by id.
-     */
-    public void sortChildren() {
-        childList.sort(Comparator.comparingInt(Child::getId));
     }
 
     /**

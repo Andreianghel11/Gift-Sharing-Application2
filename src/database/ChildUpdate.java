@@ -52,7 +52,7 @@ public final class ChildUpdate {
         return elfType;
     }
 
-    public void setElfType(String elfType) {
+    public void setElfType(final String elfType) {
         this.elfType = elfType;
     }
 }

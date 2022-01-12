@@ -1,7 +1,6 @@
 package database;
 
 import common.Constants;
-import enums.ElvesType;
 import nicescorestrategy.NiceScoreCalculator;
 import nicescorestrategy.NiceScoreFactory;
 
@@ -148,7 +147,7 @@ public final class Child {
         return elfType;
     }
 
-    public void setElfType(String elfType) {
+    public void setElfType(final String elfType) {
         this.elfType = elfType;
     }
 
@@ -162,22 +161,34 @@ public final class Child {
                 .createNiceScoreCalculator(age);
         if (niceScoreCalculator != null) {
             niceScore = niceScoreCalculator.calculateNiceScore(this);
-            niceScore += niceScore * niceScoreBonus / 100;
+            niceScore += niceScore * niceScoreBonus / Constants.HUNDRED;
             if (niceScore > Constants.MAX_NICE_SCORE) {
                 niceScore = Constants.MAX_NICE_SCORE;
             }
         }
     }
 
+    /**
+     * Calculates the new budget for a child
+     * based on his/hers type of elf.
+     */
     public void applyBudgetElf() {
         if (elfType.equals("black")) {
-            budgetAllocated = budgetAllocated - budgetAllocated * 30 / 100;
+            budgetAllocated = budgetAllocated - budgetAllocated
+                    * Constants.PERCENTAGE / Constants.HUNDRED;
         } else if (elfType.equals("pink")) {
-            budgetAllocated = budgetAllocated + budgetAllocated * 30 / 100;
+            budgetAllocated = budgetAllocated + budgetAllocated
+                    * Constants.PERCENTAGE / Constants.HUNDRED;
         }
     }
 
-    public void applyGiftElf(List<Gift> giftList) {
+    /**
+     * Tries to distribute a gift to children
+     * with a yellow elf and an empty gift list.
+     * Only tries to give the cheapest gift from
+     * the first preference of a child.
+     */
+    public void applyGiftElf(final List<Gift> giftList) {
         if (elfType.equals("yellow") && giftsReceived.isEmpty()) {
             String preference = giftPreferences.get(0);
             for (Gift gift : giftList) {

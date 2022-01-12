@@ -51,6 +51,9 @@ public final class Constants {
 
     public static final int MAX_NICE_SCORE = 10;
 
+    public static final double PERCENTAGE = 30;
+    public static final double HUNDRED = 100;
+
     public static final String NICE_SCORE_CITY = "niceScoreCity";
 
     private Constants() {
