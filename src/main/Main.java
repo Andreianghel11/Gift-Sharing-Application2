@@ -68,7 +68,7 @@ public final class Main {
         database.loadDatabase(input);
 
         //Runda 0
-        database.implementAnnualOperations();
+        database.implementAnnualOperations(Constants.ID);
 
         arrayAnnualChildList.add(fileWriter.writeChildList(database.getChildList()));
 

@@ -1,0 +1,65 @@
+_Anghel Andrei - Stelian,
+322CA,
+Ianuarie 2022_
+
+##Implementarea etapei 2 a proiectului: Santa Claus is coming to ACS students
+
+### **I. Idee**
+
+Am început prin a adăuga câmpuri noi claselor deja existente pentru
+memorarea noilor date primite ca input. În continuare, am actualizat
+citirea prin adăgarea noilor câmpuri ce trebuie parsate (strategy, elf etc).
+Ca flow al programului s-a schimbat faptul că înainte de distribuirea
+cadourilor este apelată metoda de sortare a listei de copii corespunzătoare,
+iar la calculul bugetului, respectiv după împărțirea cadourilor, sunt folosiți
+elfii black și pink, respectiv yellow. Pentru sortarea după oraș am creat
+clasa **City**. Design pattern-urile utilizate sunt **Command și Factory.**
+
+### **II. Câmpuri și clase noi**
+
+- în cadrul clasei Child am adăugat câmpurile **niceScoreBonus** și **elfType**;
+- în cadrul clasei Gift am adăugat câmpul **quantity**;
+- în cadrul clasei AnnualChange am adăugat câmpul **strategy**;
+- în cadrul clasei ChildUpdate am adăugat câmpul **elfType**;
+- am creat clasa **City** ce reține o listă a tuturor copiilor ce locuiesc într-un
+anumit oraș. Am folosit această clasă pentru a crea o listă de orașe
+pe care o voi sorta în cazul distribuirii cadourilor după niceScoreCity.
+
+### **III. Bonusul de cumințenie și cantitatea cadourilor**
+- la fiecare apelare a metodei **calculateChildScore()** este calculat scorul
+adăugând bonusul oferit de **niceScoreBonus**;
+- în cadrul metodei **distributeGifts** se verifică înainte de fiecare distribuire
+dacă valoarea cantității este diferită de 0.
+
+### **IV. Utilizare elfi**
+- am implementat în clasa Child metoda **applyBudgetElf()** care este apelată
+după fiecare calculare a bugetului și aplică modificările copiilor cu elfii
+black sau pink;
+- am implementat în clasa Child metoda **applyGiftElf()** care este apelată
+după fiecare distribuire a cadourilor și verifică dacă un copil poate primi cadoul
+bonus.
+
+### **V. Strategia de asignare a cadourilor**
+- metoda **implementAnnualOperations()** primește acum ca parametru
+strategia specifică anului (**id** pentru runda 0);
+- printr-o metodă de tip **factory** este creată comanda necesară pentru
+strategia curentă, iar un obiect de tip **Invoker** apelează comenzile ce
+aplică mai departe algoritmii necesari. Implementarea strategiei de
+împărțire a cadourilor urmează, astfel, design pattern-ul **command**,
+unde **SortCommandInvoker** este Invoker-ul, obiectele de tip **SortCommand**
+sunt comenzile ce conțin algoritmii necesari, iar Receiver-ul este
+lista de obiecte Child;
+- pentru sortarea după NiceScoreCity am creat o listă ce conține
+obiecte de tip City ce vor fi sortate. Listele de copii din cadrul
+obiectelor sunt deja sortate după id;
+- clasa City implementează metoda de calcul a NiceScore-ului mediu.
+
+### **VI. Observații**
+- nu am utilizat clasele de tip enum, ci am folosit String-uri;
+- am creat o clasă cu metode auxiliare UtilityCityList.
+
+### **VII. Feedback**
+Super interesantă tema, mi-a plăcut mai mult libertatea oferită aici
+decât constrângerile de la prima temă, care mi s-a părut mult mai densă
+și mai riguroasă. Ideea de a împărți tema în două pentru a putea extinde
+după codul mi se pare, la fel, foarte bună.

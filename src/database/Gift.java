@@ -11,10 +11,13 @@ public final class Gift {
 
     private String category;
 
-    public Gift(final String name, final double price, final String category) {
+    private int quantity;
+
+    public Gift(final String name, final double price, final String category, final int quantity) {
         this.name = name;
         this.price = price;
         this.category = category;
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -41,4 +44,11 @@ public final class Gift {
         this.category = category;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(final int quantity) {
+        this.quantity = quantity;
+    }
 }

@@ -1,5 +1,8 @@
 package database;
 
+import childrensortcommand.SortCommand;
+import childrensortcommand.SortCommandInvoker;
+import childrensortcommand.SortStrategyFactory;
 import common.Constants;
 import fileinputoutput.Input;
 
@@ -66,13 +69,26 @@ public final class Database {
 
     /**
      * Operations that must be implemented every year.
+     * Receives the year's strategy as a parameter.
      */
-    public void implementAnnualOperations() {
+    public void implementAnnualOperations(final String strategy) {
         removeYoungAdults();
         calculateChildScores();
         calculateBudget();
+
+        /*
+          Sort the children list based on the
+          year's strategy using a SortCommandInvoker
+          object that calls SortCommand objects.
+         */
+        SortCommandInvoker sortCommandInvoker = new SortCommandInvoker();
+        SortCommand sortCommand = SortStrategyFactory.createSortStrategy(strategy, childList);
+        sortCommandInvoker.sort(sortCommand);
+
         distributeGifts();
-        sortChildren();
+
+        sortCommand = SortStrategyFactory.createSortStrategy("id", childList);
+        sortCommandInvoker.sort(sortCommand);
     }
 
     /**
@@ -111,8 +127,9 @@ public final class Database {
      */
     public void calculateBudget() {
         double budgetUnit = santaBudget / calculateAverageNiceScoreSum();
-        for (Child c : childList) {
-            c.setBudgetAllocated(c.getNiceScore() * budgetUnit);
+        for (Child child : childList) {
+            child.setBudgetAllocated(child.getNiceScore() * budgetUnit);
+            child.applyBudgetElf();
         }
     }
 
@@ -124,13 +141,6 @@ public final class Database {
     }
 
     /**
-     * Method to sort the children list by id.
-     */
-    public void sortChildren() {
-        childList.sort(Comparator.comparingInt(Child::getId));
-    }
-
-    /**
      * Looks for a child's preference amongst the
      * gift list. If found, the method returns the
      * position of the gift, otherwise returns value -1.
@@ -138,7 +148,7 @@ public final class Database {
     public int findGiftByPreference(final String preference) {
         int position = 0;
         for (Gift gift : giftList) {
-            if (preference.equals(gift.getCategory())) {
+            if (preference.equals(gift.getCategory()) && gift.getQuantity() > 0) {
                 return position;
             }
             position++;
@@ -169,9 +179,11 @@ public final class Database {
                     if (remainingBudget - gift.getPrice() >= 0) {
                         remainingBudget -= gift.getPrice();
                         child.getGiftsReceived().add(gift);
+                        gift.setQuantity(gift.getQuantity() - 1);
                     }
                 }
             }
+            child.applyGiftElf(giftList);
         }
     }
 
@@ -187,7 +199,7 @@ public final class Database {
         updateChildren(annualChange.getChildrenUpdates());
         santaBudget = annualChange.getNewSantaBudget();
 
-        implementAnnualOperations();
+        implementAnnualOperations(annualChange.getStrategy());
     }
 
     /**
@@ -275,6 +287,7 @@ public final class Database {
                         child.getGiftPreferences().add(0, preference);
                     }
                 }
+                child.setElfType(childUpdate.getElfType());
             }
         }
     }

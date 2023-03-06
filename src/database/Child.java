@@ -1,5 +1,6 @@
 package database;
 
+import common.Constants;
 import nicescorestrategy.NiceScoreCalculator;
 import nicescorestrategy.NiceScoreFactory;
 
@@ -31,20 +32,27 @@ public final class Child {
 
     private List<Gift> giftsReceived;
 
+    private int niceScoreBonus;
+
+    private String elfType;
+
     public Child(final int id, final String lastName, final String firstName, final int age,
-                 final String city, final double niceScore,
-                 final ArrayList<String> giftPreferences) {
+                 final String city, final double niceScore, final ArrayList<String> giftPreferences,
+                 final int niceScoreBonus, final String elfType) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.age = age;
         this.city = city;
         this.niceScore = niceScore;
+        this.niceScoreBonus = niceScoreBonus;
         this.giftPreferences = giftPreferences;
+        this.elfType = elfType;
         niceScoresList = new ArrayList<>();
         niceScoresList.add(this.niceScore);
         budgetAllocated = 0;
         giftsReceived = new ArrayList<>();
+
     }
 
     public int getId() {
@@ -127,6 +135,22 @@ public final class Child {
         this.giftsReceived = giftsReceived;
     }
 
+    public int getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    public void setNiceScoreBonus(final int niceScoreBonus) {
+        this.niceScoreBonus = niceScoreBonus;
+    }
+
+    public String getElfType() {
+        return elfType;
+    }
+
+    public void setElfType(final String elfType) {
+        this.elfType = elfType;
+    }
+
     /**
      * Calculates a child's nice score using the
      * strategy and factory design patterns to determine
@@ -137,6 +161,45 @@ public final class Child {
                 .createNiceScoreCalculator(age);
         if (niceScoreCalculator != null) {
             niceScore = niceScoreCalculator.calculateNiceScore(this);
+            niceScore += niceScore * niceScoreBonus / Constants.HUNDRED;
+            if (niceScore > Constants.MAX_NICE_SCORE) {
+                niceScore = Constants.MAX_NICE_SCORE;
+            }
+        }
+    }
+
+    /**
+     * Calculates the new budget for a child
+     * based on his/hers type of elf.
+     */
+    public void applyBudgetElf() {
+        if (elfType.equals("black")) {
+            budgetAllocated = budgetAllocated - budgetAllocated
+                    * Constants.PERCENTAGE / Constants.HUNDRED;
+        } else if (elfType.equals("pink")) {
+            budgetAllocated = budgetAllocated + budgetAllocated
+                    * Constants.PERCENTAGE / Constants.HUNDRED;
+        }
+    }
+
+    /**
+     * Tries to distribute a gift to children
+     * with a yellow elf and an empty gift list.
+     * Only tries to give the cheapest gift from
+     * the first preference of a child.
+     */
+    public void applyGiftElf(final List<Gift> giftList) {
+        if (elfType.equals("yellow") && giftsReceived.isEmpty()) {
+            String preference = giftPreferences.get(0);
+            for (Gift gift : giftList) {
+                if (preference.equals(gift.getCategory())) {
+                    if (gift.getQuantity() > 0) {
+                        giftsReceived.add(gift);
+                        gift.setQuantity(gift.getQuantity() - 1);
+                    }
+                    return;
+                }
+            }
         }
     }
 }

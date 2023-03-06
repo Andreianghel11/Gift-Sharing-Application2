@@ -40,12 +40,21 @@ public final class Constants {
     public static final String ASSIGNED_BUDGET = "assignedBudget";
     public static final String RECEIVED_GIFTS = "receivedGifts";
     public static final String ANNUAL_CHILDREN = "annualChildren";
+    public static final String NICE_SCORE_BONUS = "niceScoreBonus";
+    public static final String ELF = "elf";
+    public static final String QUANTITY = "quantity";
+    public static final String STRATEGY = "strategy";
 
     public static final int BABY_MAX_AGE = 5;
     public static final int KID_MAX_AGE = 12;
     public static final int TEEN_MAX_AGE = 18;
 
     public static final int MAX_NICE_SCORE = 10;
+
+    public static final double PERCENTAGE = 30;
+    public static final double HUNDRED = 100;
+
+    public static final String NICE_SCORE_CITY = "niceScoreCity";
 
     private Constants() {
         //constructor for checkstyle
